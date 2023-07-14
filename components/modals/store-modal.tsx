@@ -2,16 +2,16 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
 import { useStoreModal } from "@/hooks/use-store-modal";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -19,7 +19,6 @@ const formSchema = z.object({
 
 export const StoreModal = () => {
     const storeModal = useStoreModal();
-    const router = useRouter();
 
     const [loading, setLoading] = useState(false);
 
@@ -31,7 +30,16 @@ export const StoreModal = () => {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        // TODO: Create Store
+        setLoading(true);
+        try {
+            const response = await axios.post("/api/stores", values);
+            // we are using "window.location.assign" instead of "router" because this will make a hard reload and make sure that the data is synchronized in with the database
+            window.location.assign(`/${response.data.id}`)
+        } catch (error) {
+            toast.error("Something went wrong")
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
