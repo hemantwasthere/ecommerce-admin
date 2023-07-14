@@ -1,9 +1,10 @@
 import { ClerkProvider } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { dark } from '@clerk/themes';
 
 import ModalProvider from '@/providers/modal-provider';
+import { ThemeProvider } from '@/providers/theme-provider';
 import { ToasterProvider } from '@/providers/toast-provider';
 
 import './globals.css';
@@ -17,12 +18,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider appearance={{
+      baseTheme: dark,
+    }}>
       <html lang="en">
         <body className={inter.className}>
-          <ToasterProvider />
-          <ModalProvider />
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+          >
+            <ToasterProvider />
+            <ModalProvider />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
