@@ -1,4 +1,4 @@
-import React from 'react'
+import { NextPage } from 'next'
 
 import prismadb from '@/lib/prismadb'
 interface DashboardPageProps {
@@ -7,7 +7,7 @@ interface DashboardPageProps {
     }
 }
 
-const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
+const DashboardPage: NextPage<DashboardPageProps> = async ({ params }) => {
     const store = await prismadb.store.findFirst({
         where: {
             id: params.storeId

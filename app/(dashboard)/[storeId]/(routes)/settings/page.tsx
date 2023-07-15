@@ -1,7 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-
-import React from "react";
+import { NextPage } from "next";
 
 import prismadb from "@/lib/prismadb";
 import { SettingsForm } from "./components/settings-form";
@@ -10,7 +9,7 @@ interface SettingsPageProps {
     params: { storeId: string }
 }
 
-const SettingsPage: React.FC<SettingsPageProps> = async ({ params }) => {
+const SettingsPage: NextPage<SettingsPageProps> = async ({ params }) => {
     const { userId } = auth();
 
     if (!userId) redirect('/sign-in')
