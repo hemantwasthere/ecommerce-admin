@@ -89,7 +89,10 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell, i) => (
-                                        <TableCell className={`${i === 2 && 'flex justify-end items-center'}`} key={cell.id}>
+                                        <TableCell className={`
+                                        ${i === row.getVisibleCells().length - 1 && 'flex justify-end items-center'}`}
+                                            key={cell.id}
+                                        >
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
