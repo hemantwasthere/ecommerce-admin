@@ -2,8 +2,8 @@ import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
 
-import { ColorColumn } from "./components/columns"
 import { ColorClient } from "./components/client";
+import { ColorColumn } from "./components/columns";
 
 const ColorsPage = async ({ params }: { params: { storeId: string } }) => {
 
@@ -20,7 +20,7 @@ const ColorsPage = async ({ params }: { params: { storeId: string } }) => {
         id: item.id,
         name: item.name,
         value: item.value,
-        createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+        createdAt: format(item.createdAt, 'MMMM do, yyyy, hh:mm a'),
     }));
 
     return (
