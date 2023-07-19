@@ -33,6 +33,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = React.useState<SortingState>([])
+    const [isPaidHeader, setIsPaidHeader] = React.useState(false)
 
     const table = useReactTable({
         data,
@@ -48,6 +49,17 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
             sorting
         }
     });
+
+    // Checking if the header is Paid or not
+    React.useEffect(() => {
+        table.getHeaderGroups().map((headerGroup) => {
+            headerGroup.headers.map((header) => {
+                if (flexRender(header.column.columnDef.header, header.getContext()) === 'Paid') {
+                    setIsPaidHeader(true)
+                }
+            })
+        })
+    }, [table])
 
     return (
         <div>
@@ -90,7 +102,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
                                 >
                                     {row.getVisibleCells().map((cell, i) => (
                                         <TableCell className={`
-                                        ${i === row.getVisibleCells().length - 1 && 'flex justify-end items-center'}`}
+                                        ${i === row.getVisibleCells().length - 1 && !isPaidHeader && 'flex justify-end items-center'}`}
                                             key={cell.id}
                                         >
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
