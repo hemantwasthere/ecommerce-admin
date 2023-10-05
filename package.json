@@ -55,6 +55,7 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.29.5-appdir.0",
     "prisma": "^5.0.0"
   }
 }
